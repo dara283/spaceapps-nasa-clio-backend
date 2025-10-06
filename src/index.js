@@ -5,10 +5,10 @@ import cors from 'cors'
 import morgan from 'morgan'
 
 
-// Your routers (keep these files where your imports point)
-import analysisRoutes from './analysis.js'        // e.g. exports an express.Router()
-import authRoutes from './routes/auth.js'         // e.g. exports an express.Router()
-import savesRoutes from './saves.js'              // e.g. exports an express.Router()
+import analysisRoutes from './analysis.js'
+import authRoutes from './routes/auth.js'
+import savesRoutes from './routes/saved.js'   // <-- change this
+// ...
 
 const app = express()
 
@@ -80,13 +80,12 @@ app.get('/', (_req, res) => {
 app.get('/favicon.ico', (_req, res) => res.status(204).end())
 
 /* -------------------- API routes -------------------- */
+
+
 app.use('/api/auth', authRoutes)
 app.use('/api/analysis', analysisRoutes)
+app.use('/api/saves', savesRoutes)           // <-- keep this path
 
-// Mount saves on BOTH /api/saves and /api/saved (alias)
-// so your frontend works whichever path it used earlier.
-app.use('/api/saves', savesRoutes)
-app.use('/api/saved', savesRoutes)
 
 /* -------------------- API 404 + error handler -------------------- */
 // 404 for unknown API routes (keep after your routers)
